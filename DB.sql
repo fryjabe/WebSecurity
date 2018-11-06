@@ -94,13 +94,17 @@ ID INT UNSIGNED NOT NULL AUTO_INCREMENT,
 userID INT,
 
 content VARCHAR(255) NOT NULL,
+description VARCHAR(255) NOT NULL,
+
 postDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 postType SMALLINT,
 
 hidden BOOLEAN DEFAULT 0,
 
-)
+PRIMARY KEY(ID),
+FOREIGN KEY(userID) REFERENCES user(ID)
 
+)
 
 --------------------------------------------------------------------------
 
