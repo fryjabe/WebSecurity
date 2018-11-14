@@ -24,6 +24,7 @@ email VARCHAR(60) NOT NULL UNIQUE,
 birthdate DATE NOT NULL,
 pass VARCHAR(60) NOT NULL,
 
+account_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 last_login TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
 role TINYINT DEFAULT 0,
@@ -163,7 +164,6 @@ BEGIN
 	INSERT INTO user(userName, userSurname, email, birthdate, pass, verificationCode) VALUES
 			            (userNameIn, userSurnameIn, emailIn, birthdateIn, passIn, verificationCodeIn);
 END $$
-
 DELIMITER ;
 
 -- Create event
@@ -179,6 +179,7 @@ BEGIN
 	INSERT INTO post(userID, caption, link, postType) VALUES
 			            (userIDIn, captionIn, emailIn, postTypeIn);
 END $$
+DELIMITER ;
 
 -- Message
 
@@ -220,6 +221,7 @@ BEGIN
    userID = userBID AND userRequestID = userAID);
 
 END $$
+DELIMITER ;
 
 -- Show friend's posts
 
@@ -232,9 +234,11 @@ END $$
 
 -- OTHER ----------
 
--- Login ------------ IMPORTANT
-DROP PROCEDURE IF EXISTS securityDB.login $$
-CREATE PROCEDURE securityDB.login (IN mailIn INT)
+-- Find user for login ------------ IMPORTANT
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS securityDB.findUserLogin $$
+CREATE PROCEDURE securityDB.findUserLogin (IN mailIn INT)
 BEGIN
 
   UPDATE user
@@ -243,11 +247,58 @@ BEGIN
 
 	SELECT userName, userSurname, userID, pass
   FROM user
+  WHERE mailIn = email AND verified = 1;
+
+END $$
+DELIMITER ;
+
+-- Find user for register --------- IMPORTANT
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS securityDB.findUserRegister $$
+CREATE PROCEDURE securityDB.findUserRegister (IN mailIn INT)
+BEGIN
+
+	SELECT userName, userSurname, userID, pass
+  FROM user
   WHERE mailIn = email;
 
 END $$
+DELIMITER ;
+
+-- Update last login
+
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS securityDB.updateLogin $$
+CREATE PROCEDURE securityDB.updateLogin (IN mailIn INT)
+BEGIN
+
+  UPDATE user
+  SET last_login = CURRENT_TIMESTAMP
+  WHERE mailIn = email;
+
+END $$
+DELIMITER ;
+
+-- Verify account
+
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS securityDB.verifyAccount $$
+CREATE PROCEDURE securityDB.verifyAccount (IN code VARCHAR(64))
+BEGIN
+  UPDATE user
+  SET verified = 1
+  WHERE verificationCode = code;
+
+END $$
+DELIMITER ;
+
 
 -- Get friend status
+
+DELIMITER $$
 
 DROP PROCEDURE IF EXISTS securityDB.getFriendStatus $$
 CREATE PROCEDURE securityDB.getFriendStatus (IN userAIDIn INT, IN userBIDIn)
@@ -258,7 +309,7 @@ BEGIN
         userAID = userBIDIn AND userBID = userAIDIn;
 
 END $$
-
+DELIMITER ;
 
 
 -- Check friend assisting event
