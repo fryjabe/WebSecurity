@@ -1,10 +1,11 @@
-<<<<<<< HEAD
 var express = require("express");
 var path = require("path");
 var favicon = require("serve-favicon");
 var logger = require("morgan");
 var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
+
+
 require('dotenv').config()
 
 
@@ -20,7 +21,7 @@ mongoose.connect(
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "pug");
+app.set("view engine", "ejs");
 
 // specifying which headers and from where can the api be accessed
 app.use((req, res, next) => {
@@ -60,9 +61,8 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render("error");
+  res.render("404");
 });
 
 module.exports = app;
-=======
->>>>>>> origin/master
+
