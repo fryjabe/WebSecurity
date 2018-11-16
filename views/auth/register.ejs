@@ -1,0 +1,19 @@
+<%- include('../partials/head.ejs') %>
+<%- include('../partials/header.ejs') %>
+
+<main>
+    <div class="jumbotron">
+       <form method="post" name="Signup">
+           <h1>Join SocialPenguin Today</h1>
+           Username: <input type="text" name="Username"><br>
+           Email: <input type="email" name="Email"><br>
+           Password: <input type="password" name="Password">
+           <output>At least 8 characters(must contain capital letters, small letter, number, and special characters)</output><br>
+           Confirm your Password: <input type="password" name="ConfirmPassword"><br>
+           <button type="submit" class="B1" name="Button1">Signup</button><br>
+           <a href="/Login" name="HaveaccountButton">Already have an account?</a>
+       </form>
+    </div>
+</main>
+
+<%- include('../partials/end.ejs') %>
