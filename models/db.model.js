@@ -5,7 +5,7 @@ const config = require('../config.json')
 
 //const logger = require('../logger')
 
-class DB {
+class DBmodel {
 
   constructor() {
 
@@ -71,4 +71,4 @@ class DB {
 
 }
 
-module.exports = DB
+module.exports = DBmodel

@@ -1,28 +1,20 @@
 "use strict"
 
-//const logger = require('../logger')
 
-const DBmodel = require('./db.model')
+const db = require('../utils/database')
+const config = require('../config.json')
 
-class PostModel extends DBmodel {
+module.exports = class PostModel{
+  constructor(){}
 
-  constructor() {
-    super()
-    //logger.debug(`ChatModel.constructor()`)
+
+  static feed(userID){
+    return db.execute(`CALL ${config.database}.showFeed(?)`,[userID]))
   }
 
-  async feed(userID){
-
-    //logger.debug(`ChatModel.insertMessage(${JSON.stringify(data)})`)
-    return await this.query(`CALL ${this.dbName}.showFeed(?)`,[userID]))
-  }
-
-  async createPost(post){
-
-    //logger.debug(`ChatModel.insertMessage(${JSON.stringify(data)})`)
-    return await this.query(`CALL ${this.dbName}.createUser(?,?,?,?)`,
-                      [post.userID, post.caption, post.link, post.postType]))
+  static createPost(post){
+    return db.execute(`CALL ${config.database}.createUser(?,?,?,?)`,
+                    [post.userID, post.caption, post.link, post.postType]))
 
   }
-
 }

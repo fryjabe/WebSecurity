@@ -6,6 +6,7 @@
   "sslPort": 9443,
   "wsPort": 5000,
   "wssPort": 5443,
+  "database": "securityDB",
   "dbHost": "localhost",
   "dbUser": "root",
   "dbPassword": "root",
