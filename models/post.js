@@ -9,12 +9,12 @@ module.exports = class PostModel{
 
 
   static feed(userID){
-    return db.execute(`CALL ${config.database}.showFeed(?)`,[userID]))
+    return db.execute(`CALL ${config.database}.showFeed(?)`,[userID]);
   }
 
   static createPost(post){
     return db.execute(`CALL ${config.database}.createUser(?,?,?,?)`,
-                    [post.userID, post.caption, post.link, post.postType]))
+                    [post.userID, post.caption, post.link, post.postType]);
 
   }
 }

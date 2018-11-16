@@ -11,8 +11,8 @@ const config = require('../config.json')
 module.exports = class UserModel{
   constructor(){}
 
-  static hashPass(password) {
-
+   async hashPass(password) {
+    
     try {
       const salt = await bcrypt.genSalt(10)
 
@@ -22,12 +22,12 @@ module.exports = class UserModel{
 
   }
 
-  static comparePass(password, hash) {
+  async comparePass(password, hash) {
 
     return await bcrypt.compare(password, hash)
   }
 
-  static findUser(mail){
+  async findUser(mail){
 
     try {
 
@@ -40,14 +40,14 @@ module.exports = class UserModel{
     }
   }
 
-  static userExist(mail) {
+  async userExist(mail) {
 
     const users = await db.execute(`CALL ${this.dbName}.findUserRegister(?)`, [mail])
 
     return !!(users[0])
   }
 
-  static login(){
+  async login(){
 
     const user = await this.findUser(email)
 
@@ -64,7 +64,7 @@ module.exports = class UserModel{
   }
 
 
-   static register(user){
+  async register(user){
 
       try {
         const userExist = await this.userExist(user.email)
@@ -93,7 +93,7 @@ module.exports = class UserModel{
       }
     }
 
-    static verifyAccount(accountString) {
+    async verifyAccount(accountString) {
 
       try {
         const result = await db.execute(`CALL ${this.dbName}.verifyAccount(?)`, [accountString])
@@ -102,11 +102,11 @@ module.exports = class UserModel{
 
         return { activate: true }
 
-      } catch (err) throw { activate: false }
+      } catch (err) {throw { activate: false }
 
-    }
+    }}
 
-   static sendEmail(email, activationString) {
+    async sendEmail(email, activationString) {
 
       nodemailer.createTestAccount((err, account) => {
         let transporter = nodemailer.createTransport({
@@ -135,4 +135,4 @@ module.exports = class UserModel{
 
   }
 
-}
+
