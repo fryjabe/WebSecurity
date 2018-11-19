@@ -12,7 +12,7 @@ module.exports = class UserModel{
   constructor(){}
 
    async hashPass(password) {
-    
+
     try {
       const salt = await bcrypt.genSalt(10)
 
@@ -47,7 +47,7 @@ module.exports = class UserModel{
     return !!(users[0])
   }
 
-  async login(){
+  async login(email, password){
 
     const user = await this.findUser(email)
 
@@ -77,7 +77,7 @@ module.exports = class UserModel{
         const currentDate = new Date();
 
         user.verificationCode = md5(`${user.email}${currentDate}`)
-        user.pass = await this.hashPassword(user.pass)
+        user.pass = await this.hashPass(user.pass)
 
         await db.execute(`CALL ${this.dbName}.createUser(?,?,?,?,?,?)`,
                           [user.userName, user.userSurname, user.email,
@@ -134,5 +134,3 @@ module.exports = class UserModel{
     }
 
   }
-
-

@@ -1,5 +1,4 @@
-const mongoose = require("mongoose");
-const User = require("../models/user");
+const UserModel = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -8,6 +7,18 @@ exports.getSignup= (req, res, next)=> {
 }
 
 exports.signup= (req, res, next) => {
+
+  const user = new UserModel();
+
+  var u;
+  u.userName = req.body.name;
+  u.userSurname = req.body.surname;
+  u.email = req.body.email;
+  u.birthdate = u.body.birthday;
+  u.pass = req.body.password;
+
+  user.register(u);
+  /*
   bcrypt.hash(req.body.password, 10, (err, hash) => {
     if (err) {
       return res.status(500).json({}); //add message
@@ -28,7 +39,7 @@ exports.signup= (req, res, next) => {
           res.status(500).json({});
         });
     }
-  });
+  }); */
 }
 
 exports.getLogin= (req,res, next)=>{
@@ -36,23 +47,40 @@ exports.getLogin= (req,res, next)=>{
   //res.send("chuj");
 }
 exports.login=  (req, res, next) => {
-  User.find({ email: req.body.email })
-    .exec()
-    .then(user => {
+
+  // const user = new UserModel();
+  //
+  // var result = user.login(req.body.email, req.body.password)
+  // .then(user =>{
+  //   //if (user.userName!==undefinded)
+  //   const token = jwt.sign(
+  //     {
+  //       email: req.body.email,// to be changed
+  //       userId: user[0].ID
+  //     },
+  //     process.env.JWT_KEY,
+  //     { expiresIn: "1h" }
+  //   );
+  //
+  // })
+  // .catch{
+  //
+  // };
+
+  const user = new UserModel();
+
+  var result = user.login(req.body.email, req.body.password)
+  .then(user =>{
       if (user.length < 1) {
         return res.status(401).json({
           message: "Authenticatoin failed"
         });
       }
-      bcrypt.compare(req.body.password, user[0].password, (err, result) => {
-        if (err) {
-          return res.status(401).json({ message: "Authorisation failed" });
-        }
         if (result) {
           const token = jwt.sign(
             {
-              email: user[0].email,
-              userId: user[0]._id
+              email: req.body.email,
+              userId: user[0].ID
             },
             process.env.JWT_KEY,
             { expiresIn: "1h" }
