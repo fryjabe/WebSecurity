@@ -16,4 +16,6 @@ router.get("/login", usersController.getLogin);
 
 router.post("/login", usersController.login); // no brackets ?
 
+router.get('/signout', usersController.signout);
+
 module.exports = router;

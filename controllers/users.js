@@ -10,7 +10,8 @@ exports.getSignup= (req, res, next)=> {
 exports.signup= (req, res, next) => {
   bcrypt.hash(req.body.password, 10, (err, hash) => {
     if (err) {
-      return res.status(500).json({}); //add message
+      console.log("error hashing");
+      return res.status(500).json({message: "error hashing"}); //add message
     } else {
       console.log(hash);
       const user = new User({
@@ -21,7 +22,7 @@ exports.signup= (req, res, next) => {
       user
         .save()
         .then(result => {
-          res.status(201).json({ message: "User created" });
+          res.status(201).render("auth/login");
         })
         .catch(err => {
           console.log(err);
@@ -33,7 +34,6 @@ exports.signup= (req, res, next) => {
 
 exports.getLogin= (req,res, next)=>{
   res.render('auth/login');
-  //res.send("chuj");
 }
 exports.login=  (req, res, next) => {
   User.find({ email: req.body.email })
@@ -57,9 +57,9 @@ exports.login=  (req, res, next) => {
             process.env.JWT_KEY,
             { expiresIn: "1h" }
           );
-          return res
-            .status(200)
-            .json({ message: "Authorisation successfull", token: token });
+          res.cookie('Cookie', token, { maxAge: 100000, httpOnly: true });
+          return res.redirect("../posts");
+            // .json({ message: "Authorisation successfull", token: token });
         }
         return res.status(401).json({ message: "Authorisation failed" });
       });
@@ -68,4 +68,10 @@ exports.login=  (req, res, next) => {
       console.log(err);
       res.status(500).json({});
     });
+  }
+
+
+
+  exports.signout= (req, res,next) => {
+    res.clearCookie("AUTH_TOKEN").redirect('/users/login');
   }

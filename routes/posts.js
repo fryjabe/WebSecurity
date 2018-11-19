@@ -4,9 +4,9 @@ const checkAuth= require('../middleware/check-auth');
 const postController= require('../controllers/post');
 
 /* GET users messages. */
-router.get('/', postController.getPosts);
+router.get('/',checkAuth, postController.getPosts);
 
 /* Posts users message. */
-router.post("/", postController.writePost); // add ,checkAuth
+router.post("/",checkAuth, postController.writePost); // add ,checkAuth
 
 module.exports = router;
