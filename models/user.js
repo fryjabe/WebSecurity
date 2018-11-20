@@ -31,7 +31,7 @@ module.exports = class UserModel{
 
     try {
 
-      const users = await db.execute(`CALL ${this.dbName}.findUserLogin(?)`, [mail])
+      const users = await db.execute(`CALL securityDB.findUserLogin(?)`, [mail])
       const user = users[0]
 
       return user
@@ -42,9 +42,17 @@ module.exports = class UserModel{
 
   async userExist(mail) {
 
-    const users = await db.execute(`CALL ${this.dbName}.findUserRegister(?)`, [mail])
+    try {
 
-    return !!(users[0])
+      const users = await db.execute(`CALL securityDB.findUserRegister(?)`, [mail])
+
+      console.log("Query result:")
+      console.log(users);
+
+      return !!(users[0]) //WTF does that do?
+    } catch (e) {
+        console.log(e);
+    }
   }
 
   async login(email, password){
@@ -66,22 +74,41 @@ module.exports = class UserModel{
 
   async register(user){
 
+    const currentDate = new Date();
+    user.verificationCode = md5(`${user.email}${currentDate}`)
+
+    try {
+
+      user.pass = await this.hashPass(user.pass)
+
+    } catch (e) {
+        console.log("Error during password encryption");
+    }
+
+
       try {
-        const userExist = await this.userExist(user.email)
 
-        if (userExist) {
+        // try {
+        //   const userExist = await this.userExist(user.email)
+        //
+        //   console.log(userExist + "Testing 2");
+        //
+        //   if (userExist) {
+        //
+        //     throw { userExist: true }
+        //   }
+        // } catch (e) {
+        //
+        // }
 
-          throw { userExist: true }
-        }
 
-        const currentDate = new Date();
 
-        user.verificationCode = md5(`${user.email}${currentDate}`)
-        user.pass = await this.hashPass(user.pass)
+        const result = await db.execute(`CALL securityDB.createUser(?,?,?,?,?,?)`,
+                          [user.name, user.email,
+                           user.pass, user.verificationCode])
 
-        await db.execute(`CALL ${this.dbName}.createUser(?,?,?,?,?,?)`,
-                          [user.userName, user.userSurname, user.email,
-                          user.birthdate, user.pass, user.verificationCode])
+        console.log("HOLAHOLITA");
+        console.log(result);
 
         this.sendEmail(user.email, user.verificationCode)
 
@@ -96,7 +123,7 @@ module.exports = class UserModel{
     async verifyAccount(accountString) {
 
       try {
-        const result = await db.execute(`CALL ${this.dbName}.verifyAccount(?)`, [accountString])
+        const result = await db.execute(`CALL securityDB.verifyAccount(?)`, [accountString])
 
         if (result.changedRows !== 1) throw { activate: false, msg: 'invalid activation code' }
 
@@ -106,7 +133,7 @@ module.exports = class UserModel{
 
     }}
 
-    async sendEmail(email, activationString) {
+    static sendEmail(email, activationString) {
 
       nodemailer.createTestAccount((err, account) => {
         let transporter = nodemailer.createTransport({

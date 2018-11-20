@@ -8,14 +8,14 @@ exports.getSignup= (req, res, next)=> {
 
 exports.signup= (req, res, next) => {
 
-  const user = new UserModel();
+  var user=new UserModel();
 
-  var u;
-  u.userName = req.body.name;
-  u.userSurname = req.body.surname;
-  u.email = req.body.email;
-  u.birthdate = u.body.birthday;
-  u.pass = req.body.password;
+  var u ={
+    name: req.body.name,
+    email: req.body.email,
+    pass: req.body.password
+  }
+
 
   user.register(u);
   /*
@@ -90,7 +90,7 @@ exports.login=  (req, res, next) => {
             .json({ message: "Authorisation successfull", token: token });
         }
         return res.status(401).json({ message: "Authorisation failed" });
-      });
+
     })
     .catch(err => {
       console.log(err);

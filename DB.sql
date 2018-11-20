@@ -1,5 +1,11 @@
+-- mysql -u root -p -h localhost
+
 CREATE DATABASE IF NOT EXISTS securityDB DEFAULT CHARACTER SET utf8mb4 ;
 USE `securityDB`;
+
+CREATE USER IF NOT EXISTS 'securityAdmin'@'localhost'  IDENTIFIED BY 'strongPassword';
+GRANT ALL PRIVILEGES ON `securityDB`.* TO 'securityAdmin'@'localhost';
+
 
 DROP TABLE IF EXISTS `securityDB`.`friends`;
 DROP TABLE IF EXISTS `securityDB`.`like`;
@@ -15,11 +21,9 @@ CREATE TABLE IF NOT EXISTS `securityDB`.`user`(
 
   `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
 
-  `userName` VARCHAR(45) NOT NULL,
-  `userSurname` VARCHAR(45) NOT NULL,
+  `name` VARCHAR(91) NOT NULL,
 
   `email` VARCHAR(60) NOT NULL UNIQUE,
-  `birthdate` DATE NOT NULL,
   `pass` VARCHAR(60) NOT NULL,
 
   `account_created` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

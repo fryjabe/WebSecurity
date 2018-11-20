@@ -7,12 +7,12 @@ USE `securityDB`;
 DELIMITER $$
 
 DROP PROCEDURE IF EXISTS `securityDB`.`createUser` $$
-CREATE PROCEDURE `securityDB`.`createUser` (IN `userNameIn` VARCHAR(45), IN `userSurnameIn` VARCHAR(45),
-                                        IN `emailIn` VARCHAR(60), IN `birthdateIn` DATE,
-		                                    IN `passIn` VARCHAR(60), IN `verificationCodeIn` VARCHAR(64))
+CREATE PROCEDURE `securityDB`.`createUser` (IN `userNameIn` VARCHAR(45),
+                                            IN `emailIn` VARCHAR(60), IN `passIn` VARCHAR(60),
+                                            IN `verificationCodeIn` VARCHAR(64))
 BEGIN
-	INSERT INTO `securityDB`.`user`(`userName`, `userSurname`, `email`, `birthdate`, `pass`, `verificationCode`) VALUES
-			            (`userNameIn`, `userSurnameIn`, `emailIn`, `birthdateIn`, `passIn`, `verificationCodeIn`);
+	INSERT INTO `securityDB`.`user`(`name`, `email`, `pass`, `verificationCode`) VALUES
+			            (`userNameIn`, `emailIn`, `passIn`, `verificationCodeIn`);
 END $$
 DELIMITER ;
 
@@ -58,11 +58,11 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS `securityDB`.`showFeed` $$
 CREATE PROCEDURE `securityDB`.`showFeed` (IN `userRequestID` INT UNSIGNED)
 BEGIN
-	(SELECT `userName`, `userSurname`, `caption`, `link`, `postDate`
+	(SELECT `name`, `caption`, `link`, `postDate`
 	FROM `securityDB`.`user`, `securityDB`.`post`
 	WHERE `userID` = `userRequestID`AND `user`.`ID` = `userID`)
   UNION
-  (SELECT `userName`, `userSurname`, `caption`, `link`, `postDate`
+  (SELECT `name`, `caption`, `link`, `postDate`
 	FROM `securityDB`.`user`, `securityDB`.`friends`, `securityDB`.`post`
 	WHERE `status` = 1 AND
 	(`userID` = `userAID` AND `userRequestID` = `userBID` OR
@@ -90,7 +90,7 @@ CREATE PROCEDURE `securityDB`.`findUserLogin` (IN `mailIn` VARCHAR(60))
 BEGIN
 
 
-	SELECT `userName`, `userSurname`, `ID`, `pass`
+	SELECT `name`, `ID`, `pass`
 	FROM `securityDB`.`user`
 	WHERE `mailIn` = `email` AND `verified` = 1;
 
@@ -104,7 +104,7 @@ DROP PROCEDURE IF EXISTS `securityDB`.`findUserRegister` $$
 CREATE PROCEDURE `securityDB`.`findUserRegister` (IN `mailIn` VARCHAR(60))
 BEGIN
 
-	SELECT `userName`, `userSurname`, `ID`, `pass`
+	SELECT `name`, `ID`, `pass`
 	FROM `securityDB`.`user`
 	WHERE `mailIn` = `email`;
 
