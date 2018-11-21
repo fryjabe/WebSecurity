@@ -7,6 +7,7 @@ var bodyParser = require("body-parser");
 // var csrf = require('csurf')
 // var csrfProtection = csrf({ cookie: true })
 
+
 var session= require('express-session');
 
 
@@ -31,14 +32,19 @@ app.set("view engine", "ejs");
 app.use((req, res, next) => {
   res.header(
     "Access-Control-Allow-Origin",
-    `*`
+    `*` 
+    // we should not put * because it means that anybody can access the api
   );
   res.header(
     "Access-Control-Allow-Headers",
     "X-Requested-With, Content-Type, Accept"
   );
+  res.setHeader('Content-Security-Policy', "script-src 'self'; style-src 'self'")
   next();
 });
+
+app.disable('x-powered-by')
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger("dev"));

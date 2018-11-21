@@ -61,7 +61,7 @@ exports.login=  (req, res, next) => {
             process.env.JWT_KEY,
             { expiresIn: "1h" }
           );
-          res.cookie('Cookie', token, { maxAge: 36000, httpOnly: true });
+          res.cookie('Cookie', token, { maxAge: 3600000, httpOnly: true });
           return res.redirect("../posts");
             // .json({ message: "Authorisation successfull", token: token });
         }

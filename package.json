@@ -15,6 +15,7 @@
     "dotenv": "^6.1.0",
     "ejs": "^2.6.1",
     "express": "~4.15.2",
+    "express-rate-limit": "^3.3.2",
     "express-session": "^1.15.6",
     "htmlencode": "0.0.4",
     "jsonwebtoken": "^8.3.0",
@@ -22,6 +23,11 @@
     "morgan": "~1.8.1",
     "nodemon": "^1.18.6",
     "pug": "~2.0.0-beta11",
+    "sanitize": "^2.1.0",
+    "sanitize-html": "^1.19.1",
     "serve-favicon": "~2.4.2"
+  },
+  "devDependencies": {
+    "eslint-plugin-security": "^1.4.0"
   }
 }
