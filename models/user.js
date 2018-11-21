@@ -22,52 +22,45 @@ module.exports = class UserModel{
 
   }
 
-  async comparePass(password, hash) {
-
-    return await bcrypt.compare(password, hash)
-  }
-
   async findUser(mail){
 
-    try {
+    db.execute(`CALL securityDB.findUserRegister(?)`, [mail])
+      .then(result => {
+        console.log(result[0]);
+      })
+      .catch(err => {
+        console.log(err);
+      });
 
-      const users = await db.execute(`CALL securityDB.findUserLogin(?)`, [mail])
-      const user = users[0]
 
-      return user
-    } catch (error) {
-      throw { validMail: false }
-    }
   }
 
-  async userExist(mail) {
-
-    try {
-
-      const users = await db.execute(`CALL securityDB.findUserRegister(?)`, [mail])
-
-      console.log("Query result:")
-      console.log(users);
-
-      return !!(users[0]) //WTF does that do?
-    } catch (e) {
-        console.log(e);
-    }
-  }
 
   async login(email, password){
 
-    const user = await this.findUser(email)
+    var user;
 
-    if (!user) throw { userExist: false }
+    await db.execute(`CALL securityDB.findUserRegister(?)`, [email])
+      .then(result => {
 
-    if (!user.verified) throw { activate: false }
+        user = {
+          name: result[0][0][0].name,
+          pass: result[0][0][0].pass,
+          ID: result[0][0][0].ID,
+          verified: result[0][0][0].verified
+        }
 
-    if (!await this.comparePassword(password, user.pass)) {
+      })
+      .catch(err => {
+        console.log(err);
+      });
 
-      throw { authenticated: false }
+    console.log(user);
+
+    if (typeof user == 'undefined') return false;
+    if (!bcrypt.compareSync(password, user.pass)) {
+        return false;
     }
-
     return user;
   }
 
@@ -75,49 +68,23 @@ module.exports = class UserModel{
   async register(user){
 
     const currentDate = new Date();
+
     user.verificationCode = md5(`${user.email}${currentDate}`)
+    user.pass = await this.hashPass(user.pass)
 
-    try {
-
-      user.pass = await this.hashPass(user.pass)
-
-    } catch (e) {
-        console.log("Error during password encryption");
-    }
-
-
-      try {
-
-        // try {
-        //   const userExist = await this.userExist(user.email)
-        //
-        //   console.log(userExist + "Testing 2");
-        //
-        //   if (userExist) {
-        //
-        //     throw { userExist: true }
-        //   }
-        // } catch (e) {
-        //
-        // }
+    db.execute(`CALL securityDB.createUser(?,?,?,?)`,
+                [user.name, user.email,
+                user.pass, user.verificationCode])
+      .then(result => {
+        console.log("New user created with email " + user.email);
+      })
+      .catch(err => {
+        console.log("User not created. Email already in use");
+      });
 
 
+    //this.sendEmail(user.email, user.verificationCode)
 
-        const result = await db.execute(`CALL securityDB.createUser(?,?,?,?,?,?)`,
-                          [user.name, user.email,
-                           user.pass, user.verificationCode])
-
-        console.log("HOLAHOLITA");
-        console.log(result);
-
-        this.sendEmail(user.email, user.verificationCode)
-
-        return { signedUp: true, msg: 'user successfully signed up' }
-
-      } catch (err) {
-
-        throw { ...err, userCreated: false };
-      }
     }
 
     async verifyAccount(accountString) {
@@ -133,31 +100,31 @@ module.exports = class UserModel{
 
     }}
 
-    static sendEmail(email, activationString) {
-
-      nodemailer.createTestAccount((err, account) => {
-        let transporter = nodemailer.createTransport({
-          host: config.dbHost,
-          port: config.port,
-          secure: false,
-          auth: {
-            user: config.mailUser,
-            pass: config.mailPass
-          }
-        })
-
-        let mailOptions = {
-          from: '"Social Penguin" <keamailer@gmail.com>',
-          to: email,
-          subject: 'Account activation',
-          text: 'In order to activate your account you need to access the following link',
-          html: `<b>In order to activate your account you need to access the following link</b> <a href="http://${config.host}:${config.port}/user/activation/${activationString}">Activation link</a>`
-        }
-
-        transporter.sendMail(mailOptions, (error, info) => {
-          if (error) throw { activationSent: false }
-        })
-      })
-    }
+    // async sendEmail(email, activationString) {
+    //
+    //   nodemailer.createTestAccount((err, account) => {
+    //     let transporter = nodemailer.createTransport({
+    //       host: config.dbHost,
+    //       port: config.port,
+    //       secure: false,
+    //       auth: {
+    //         user: config.mailUser,
+    //         pass: config.mailPass
+    //       }
+    //     })
+    //
+    //     let mailOptions = {
+    //       from: '"Social Penguin" <keamailer@gmail.com>',
+    //       to: email,
+    //       subject: 'Account activation',
+    //       text: 'In order to activate your account you need to access the following link',
+    //       html: `<b>In order to activate your account you need to access the following link</b> <a href="http://${config.host}:${config.port}/user/activation/${activationString}">Activation link</a>`
+    //     }
+    //
+    //     transporter.sendMail(mailOptions, (error, info) => {
+    //       if (error) throw { activationSent: false }
+    //     })
+    //   })
+    // }
 
   }

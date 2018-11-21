@@ -18,69 +18,32 @@ exports.signup= (req, res, next) => {
 
 
   user.register(u);
-  /*
-  bcrypt.hash(req.body.password, 10, (err, hash) => {
-    if (err) {
-      return res.status(500).json({}); //add message
-    } else {
-      console.log(hash);
-      const user = new User({
-        _id: new mongoose.Types.ObjectId(),
-        email: req.body.email,
-        password: hash
-      });
-      user
-        .save()
-        .then(result => {
-          res.status(201).json({ message: "User created" });
-        })
-        .catch(err => {
-          console.log(err);
-          res.status(500).json({});
-        });
-    }
-  }); */
+
 }
 
 exports.getLogin= (req,res, next)=>{
   res.render('auth/login');
-  //res.send("chuj");
-}
-exports.login=  (req, res, next) => {
 
-  // const user = new UserModel();
-  //
-  // var result = user.login(req.body.email, req.body.password)
-  // .then(user =>{
-  //   //if (user.userName!==undefinded)
-  //   const token = jwt.sign(
-  //     {
-  //       email: req.body.email,// to be changed
-  //       userId: user[0].ID
-  //     },
-  //     process.env.JWT_KEY,
-  //     { expiresIn: "1h" }
-  //   );
-  //
-  // })
-  // .catch{
-  //
-  // };
+}
+exports.login= (req, res, next) => {
 
   const user = new UserModel();
 
-  var result = user.login(req.body.email, req.body.password)
-  .then(user =>{
-      if (user.length < 1) {
-        return res.status(401).json({
-          message: "Authenticatoin failed"
-        });
-      }
-        if (result) {
+  user.login(req.body.email, req.body.password)
+      .then(result => {
+
+        if(!result){
+          console.log("TODO: User or password incorrect");
+          return res.status(401).json({ message: "Authorisation failed" });
+        }
+        //if(!result.verified) console.log("Account not verified. Check email");
+
+        else{
+          console.log("TODO: Login successful - Return key");
           const token = jwt.sign(
             {
               email: req.body.email,
-              userId: user[0].ID
+              userId: result.ID
             },
             process.env.JWT_KEY,
             { expiresIn: "1h" }
@@ -89,11 +52,9 @@ exports.login=  (req, res, next) => {
             .status(200)
             .json({ message: "Authorisation successfull", token: token });
         }
-        return res.status(401).json({ message: "Authorisation failed" });
 
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({});
-    });
-  }
+      })
+      .catch(err =>{
+        console.log(err);
+      });
+}

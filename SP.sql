@@ -86,15 +86,7 @@ DELIMITER ;
 DELIMITER $$
 
 DROP PROCEDURE IF EXISTS `securityDB`.`findUserLogin` $$
-CREATE PROCEDURE `securityDB`.`findUserLogin` (IN `mailIn` VARCHAR(60))
-BEGIN
 
-
-	SELECT `name`, `ID`, `pass`
-	FROM `securityDB`.`user`
-	WHERE `mailIn` = `email` AND `verified` = 1;
-
-END $$
 DELIMITER ;
 
 -- Find user for register --------- IMPORTANT
@@ -104,7 +96,7 @@ DROP PROCEDURE IF EXISTS `securityDB`.`findUserRegister` $$
 CREATE PROCEDURE `securityDB`.`findUserRegister` (IN `mailIn` VARCHAR(60))
 BEGIN
 
-	SELECT `name`, `ID`, `pass`
+	SELECT `name`, `ID`, `pass`, `verified`
 	FROM `securityDB`.`user`
 	WHERE `mailIn` = `email`;
 
