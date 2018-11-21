@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Post = require("../models/post");
+var htmlencode = require('htmlencode');
 
 exports.getPosts = (req, res, next) => {
   Post.find()
@@ -9,7 +10,7 @@ exports.getPosts = (req, res, next) => {
      // res.status(200).json(docs);
       
       res.render('posts/wall',{
-        posts: docs,
+        posts: docs.reverse(),
         path: '/'
       });
     })
@@ -20,6 +21,7 @@ exports.getPosts = (req, res, next) => {
 };
 
 exports.writePost = (req, res, next) => {
+  
   const post = new Post({
     _id: new mongoose.Types.ObjectId(),
     content: req.body.content

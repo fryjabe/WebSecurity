@@ -4,6 +4,10 @@ var favicon = require("serve-favicon");
 var logger = require("morgan");
 var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
+// var csrf = require('csurf')
+// var csrfProtection = csrf({ cookie: true })
+
+var session= require('express-session');
 
 
 require('dotenv').config()
@@ -42,7 +46,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-
+app.use(session({secret: 'secretkeytodo',resave: false, saveUninitialized: false}));
 app.use("/posts", posts);
 app.use("/users", users);
 app.use("/", function(req, res, next) {

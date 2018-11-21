@@ -2,9 +2,13 @@ const mongoose = require("mongoose");
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+//var csrf = require('csurf')
+//var csrfProtection = csrf({ cookie: true })
+
+
 
 exports.getSignup= (req, res, next)=> {
-  res.render('auth/register')
+  res.render('auth/register',{csrfToken: req.csrfToken()})
 }
 
 exports.signup= (req, res, next) => {
@@ -22,7 +26,7 @@ exports.signup= (req, res, next) => {
       user
         .save()
         .then(result => {
-          res.status(201).render("auth/login");
+          res.status(201).redirect("/users/login");
         })
         .catch(err => {
           console.log(err);
@@ -33,7 +37,7 @@ exports.signup= (req, res, next) => {
 }
 
 exports.getLogin= (req,res, next)=>{
-  res.render('auth/login');
+  res.render('auth/login',{csrfToken: req.csrfToken()});
 }
 exports.login=  (req, res, next) => {
   User.find({ email: req.body.email })
@@ -57,7 +61,7 @@ exports.login=  (req, res, next) => {
             process.env.JWT_KEY,
             { expiresIn: "1h" }
           );
-          res.cookie('Cookie', token, { maxAge: 100000, httpOnly: true });
+          res.cookie('Cookie', token, { maxAge: 36000, httpOnly: true });
           return res.redirect("../posts");
             // .json({ message: "Authorisation successfull", token: token });
         }
