@@ -7,12 +7,7 @@ CREATE USER IF NOT EXISTS 'securityAdmin'@'localhost'  IDENTIFIED BY 'strongPass
 GRANT ALL PRIVILEGES ON `securityDB`.* TO 'securityAdmin'@'localhost';
 
 
-DROP TABLE IF EXISTS `securityDB`.`friends`;
 DROP TABLE IF EXISTS `securityDB`.`like`;
-DROP TABLE IF EXISTS `securityDB`.`comment`;
-
-DROP TABLE IF EXISTS `securityDB`.`message`;
-
 DROP TABLE IF EXISTS `securityDB`.`post`;
 DROP TABLE IF EXISTS `securityDB`.`user`;
 
@@ -37,42 +32,6 @@ CREATE TABLE IF NOT EXISTS `securityDB`.`user`(
   PRIMARY KEY(`ID`)
 );
 
--- -------------------------------------------------------------------------
-
-CREATE TABLE IF NOT EXISTS `securityDB`.`message`(
-
-  `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-
-  `senderID` INT UNSIGNED NOT NULL,
-  `receiverID` INT UNSIGNED NOT NULL,
-
-  `content` VARCHAR(255) NOT NULL,
-  `msgDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-  `hidden` BOOLEAN DEFAULT 0,
-
-  PRIMARY KEY(`ID`),
-  FOREIGN KEY(`senderID`) REFERENCES `securityDB`.`user`(`ID`),
-  FOREIGN KEY(`receiverID`) REFERENCES `securityDB`.`user`(`ID`)
-
-);
-
--- ------------------------------------------------------------------------
--- status 0 pending - 1 accepted - 2 declined - 3 blocked
-
-CREATE TABLE IF NOT EXISTS `securityDB`.`friends`(
-
-  `userAID` INT UNSIGNED NOT NULL,
-  `userBID` INT UNSIGNED NOT NULL,
-
-  `status` SMALLINT DEFAULT 0,
-  `actionUserID` INT UNSIGNED NOT NULL,
-
-  PRIMARY KEY(`userAID`, `userBID`),
-  FOREIGN KEY(`userAID`) REFERENCES `securityDB`.`user`(`ID`),
-  FOREIGN KEY(`userBID`) REFERENCES `securityDB`.`user`(`ID`),
-  FOREIGN KEY(`actionUserID`) REFERENCES `securityDB`.`user`(`ID`)
-);
 
 -- ------------------------------------------------------------------------
 
@@ -102,20 +61,6 @@ CREATE TABLE IF NOT EXISTS `securityDB`.`like`(
 
   `postID` INT UNSIGNED NOT NULL,
   `userID` INT UNSIGNED NOT NULL,
-
-  PRIMARY KEY(`postID`, `userID`),
-  FOREIGN KEY(`userID`) REFERENCES `securityDB`.`user`(`ID`),
-  FOREIGN KEY(`postID`) REFERENCES `securityDB`.`post`(`ID`)
-);
-
--- ------------------------------------------------------------------------
-
-CREATE TABLE IF NOT EXISTS `securityDB`.`comment`(
-
-  `postID` INT UNSIGNED NOT NULL,
-  `userID` INT UNSIGNED NOT NULL,
-
-  `content` VARCHAR(255) NOT NULL,
 
   PRIMARY KEY(`postID`, `userID`),
   FOREIGN KEY(`userID`) REFERENCES `securityDB`.`user`(`ID`),

@@ -22,20 +22,6 @@ module.exports = class UserModel{
 
   }
 
-  async findUser(mail){
-
-    db.execute(`CALL securityDB.findUserRegister(?)`, [mail])
-      .then(result => {
-        console.log(result[0]);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-
-
-  }
-
-
   async login(email, password){
 
     var user;

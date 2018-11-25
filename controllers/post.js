@@ -1,17 +1,19 @@
 const mongoose = require("mongoose");
-const Post = require("../models/post");
+const PostModel = require("../models/post");
 
 exports.getPosts = (req, res, next) => {
-  Post.find()
-    .exec()
-    .then(docs => {
-      console.log(docs);
-     // res.status(200).json(docs);
-      
+
+  var post = new PostModel()
+
+
+  post.feed()
+    .then(result => {
+      console.log(result);
+
       res.render('posts/wall',{
-        posts: docs,
-        path: '/'
-      });
+         posts: result,
+         path: '/'
+       });
     })
     .catch(err => {
       console.log(err);

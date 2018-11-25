@@ -8,13 +8,32 @@ module.exports = class PostModel{
   constructor(){}
 
 
-  static feed(userID){
-    return db.execute(`CALL ${config.database}.showFeed(?)`,[userID]);
+  async feed(){
+
+    var feed;
+
+    await db.execute(`CALL securityDB.showFeed()`)
+    .then(result =>{
+      feed = result[0][0]
+    })
+    .catch(err=>{
+      console.log(err);
+    });
+
+    //console.log(feed);
+
+    return feed;
   }
 
   static createPost(post){
-    return db.execute(`CALL ${config.database}.createUser(?,?,?,?)`,
-                    [post.userID, post.caption, post.link, post.postType]);
+    db.execute(`CALL securityDB.createUser(?,?,?,?)`,
+                [post.userID, post.caption, post.link, post.postType])
+                .then(result =>{
+                  console.log("New post created be user with ID " + post.userID);
+                })
+                .catch(err =>{
+                  console.log(err);
+                });
 
   }
 }

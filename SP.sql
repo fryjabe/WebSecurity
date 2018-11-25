@@ -29,44 +29,23 @@ BEGIN
 END $$
 DELIMITER ;
 
--- Message
-
--- Request friend ---------- IMPORTANT
-
-
-
--- Accept friend ---------- IMPORTANT
-
-
--- Decline friend
-
--- Block friend
 
 -- Like post
-
--- Comment post
 
 
 -- VIEWS ----------
 
--- Show friends
 
 -- Show feed ------------ IMPORTANT
 
 DELIMITER $$
 
 DROP PROCEDURE IF EXISTS `securityDB`.`showFeed` $$
-CREATE PROCEDURE `securityDB`.`showFeed` (IN `userRequestID` INT UNSIGNED)
+CREATE PROCEDURE `securityDB`.`showFeed` ()
 BEGIN
-	(SELECT `name`, `caption`, `link`, `postDate`
+	SELECT `name`, `caption`, `link`, `postDate`
 	FROM `securityDB`.`user`, `securityDB`.`post`
-	WHERE `userID` = `userRequestID`AND `user`.`ID` = `userID`)
-  UNION
-  (SELECT `name`, `caption`, `link`, `postDate`
-	FROM `securityDB`.`user`, `securityDB`.`friends`, `securityDB`.`post`
-	WHERE `status` = 1 AND
-	(`userID` = `userAID` AND `userRequestID` = `userBID` OR
-	`userID` = `userBID` AND `userRequestID` = `userAID`));
+    WHERE `userID`=`user`.`ID`;
 
 END $$
 DELIMITER ;
@@ -81,13 +60,6 @@ DELIMITER ;
 
 
 -- OTHER ----------
-
--- Find user for login ------------ IMPORTANT
-DELIMITER $$
-
-DROP PROCEDURE IF EXISTS `securityDB`.`findUserLogin` $$
-
-DELIMITER ;
 
 -- Find user for register --------- IMPORTANT
 DELIMITER $$
@@ -131,19 +103,3 @@ BEGIN
 
 END $$
 DELIMITER ;
-
-
--- Get friend status
-
--- DELIMITER $$
-
--- DROP PROCEDURE IF EXISTS `securityDB`.`getFriendStatus` $$
--- CREATE PROCEDURE `securityDB`.`getFriendStatus` (IN `userAIDIn` INT, IN `userBIDIn`)
--- BEGIN
--- 	SELECT `status`, `actionUserID`
---  FROM `securityDB`.`friends`
---  WHERE `userAID` = `userAIDIn` AND `userBID` = `userBIDIn` OR
---        `userAID` = `userBIDIn` AND `userBID` = `userAIDIn`;
-
--- END $$
--- DELIMITER ;
