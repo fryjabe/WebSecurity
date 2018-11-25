@@ -31,4 +31,7 @@ router.post("/login",limiter, usersController.login); // no brackets ?
 
 router.get('/signout', usersController.signout);
 
+router.get('/activation/:link', usersController.activation);
+
+
 module.exports = router;

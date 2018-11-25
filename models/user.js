@@ -69,48 +69,50 @@ module.exports = class UserModel{
       });
 
 
-    //this.sendEmail(user.email, user.verificationCode)
+    this.sendEmail(user.email, user.verificationCode)
 
     }
 
-    async verifyAccount(accountString) {
+    async activateAccount(accountString) {
+        console.log("bonbonland");
 
-      try {
-        const result = await db.execute(`CALL securityDB.verifyAccount(?)`, [accountString])
 
-        if (result.changedRows !== 1) throw { activate: false, msg: 'invalid activation code' }
+        db.execute(`CALL securityDB.verifyAccount(?)`, [accountString])
+            .then(result => {
+                console.log("User has been verified");
+            })
+            .catch(err => {
+                console.log("User not verified in correct code");
+            });
 
-        return { activate: true }
+    }
 
-      } catch (err) {throw { activate: false }
+    async sendEmail(email, activationString) {
 
-    }}
+        nodemailer.createTestAccount((err, account) => {
+            let transporter = nodemailer.createTransport({
+                // host: config.dbHost,
+                // port: config.port,
+                service:'gmail',
+                secure: false,
+                auth: {
+                    user: config.mailUser,
+                    pass: config.mailPass
+                }
+            })
 
-    // async sendEmail(email, activationString) {
-    //
-    //   nodemailer.createTestAccount((err, account) => {
-    //     let transporter = nodemailer.createTransport({
-    //       host: config.dbHost,
-    //       port: config.port,
-    //       secure: false,
-    //       auth: {
-    //         user: config.mailUser,
-    //         pass: config.mailPass
-    //       }
-    //     })
-    //
-    //     let mailOptions = {
-    //       from: '"Social Penguin" <keamailer@gmail.com>',
-    //       to: email,
-    //       subject: 'Account activation',
-    //       text: 'In order to activate your account you need to access the following link',
-    //       html: `<b>In order to activate your account you need to access the following link</b> <a href="http://${config.host}:${config.port}/user/activation/${activationString}">Activation link</a>`
-    //     }
-    //
-    //     transporter.sendMail(mailOptions, (error, info) => {
-    //       if (error) throw { activationSent: false }
-    //     })
-    //   })
-    // }
+            let mailOptions = {
+                from: '"Social Penguin" <keamailer@gmail.com>',
+                to: email,
+                subject: 'Account activation',
+                text: 'In order to activate your account you need to access the following link',
+                html: `<b>In order to activate your account you need to access the following link</b> <a href="http://${config.host}:${config.port}/users/activation/${activationString}">Activation link</a>`
+            }
+
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) throw { activationSent: false }
+            })
+        })
+    }
 
   }
