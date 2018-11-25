@@ -69,7 +69,8 @@ exports.login=  (req, res, next) => {
         return res.status(401).json({ message: "Authorisation failed" });
 
       })
-      console.log(err);
+      .catch(err =>{
+        console.log(err);
         res.status(500).json({});
       });
 

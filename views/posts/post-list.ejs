@@ -1,23 +1,21 @@
 
-    
-      
 
-        
+
+
+
                 <% if (posts.length > 0) { %>
                     <div class="grid">
                         <% for (let post of posts) { %>
                             <article class="card product-item">
                                 <header class="card__header">
                                     <h1 class="product__title">
-                                        <%= post.content %>
+                                        <%= post.caption %>
                                     </h1>
                                 </header>
-                               
+
                             </article>
                             <% } %>
                     </div>
                     <% } else { %>
                         <h1>No posts Found!</h1>
                         <% } %>
-            
-            
