@@ -4,6 +4,8 @@ var favicon = require("serve-favicon");
 var logger = require("morgan");
 var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
+const helmet = require('helmet')
+
 // var csrf = require('csurf')
 // var csrfProtection = csrf({ cookie: true })
 
@@ -28,11 +30,14 @@ mongoose.connect(
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
+app.use(helmet())
+app.use(helmet.referrerPolicy({ policy: 'same-origin' }))
+
 // specifying which headers and from where can the api be accessed
 app.use((req, res, next) => {
   res.header(
     "Access-Control-Allow-Origin",
-    `*` 
+    `http://localhost:3000` 
     // we should not put * because it means that anybody can access the api
   );
   res.header(
