@@ -1,5 +1,4 @@
-const mongoose = require("mongoose");
-const User = require("../models/user");
+const UserModel = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 //var csrf = require('csurf')
@@ -12,66 +11,68 @@ exports.getSignup= (req, res, next)=> {
 }
 
 exports.signup= (req, res, next) => {
-  bcrypt.hash(req.body.password, 10, (err, hash) => {
-    if (err) {
-      console.log("error hashing");
-      return res.status(500).json({message: "error hashing"}); //add message
-    } else {
-      console.log(hash);
-      const user = new User({
-        _id: new mongoose.Types.ObjectId(),
-        email: req.body.email,
-        password: hash
+
+  var user=new UserModel();
+
+  var u ={
+    name: req.body.name,
+    email: req.body.email,
+    pass: req.body.password
+  }
+
+
+  user.register(u)
+      .then(result => {
+        res.status(201).redirect("/users/login");
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({});
       });
-      user
-        .save()
-        .then(result => {
-          res.status(201).redirect("/users/login");
-        })
-        .catch(err => {
-          console.log(err);
-          res.status(500).json({});
-        });
-    }
-  });
+
 }
 
 exports.getLogin= (req,res, next)=>{
   res.render('auth/login',{csrfToken: req.csrfToken()});
 }
+
 exports.login=  (req, res, next) => {
-  User.find({ email: req.body.email })
-    .exec()
-    .then(user => {
-      if (user.length < 1) {
-        return res.status(401).json({
-          message: "Authenticatoin failed"
-        });
-      }
-      bcrypt.compare(req.body.password, user[0].password, (err, result) => {
-        if (err) {
-          return res.status(401).json({ message: "Authorisation failed" });
+
+  const user = new UserModel();
+
+  user.login(req.body.email, req.body.password)
+      .then(result => {
+
+        if(!result){
+
+          return res.status(401).json({ message: "User or password incorrect" });
         }
-        if (result) {
+        //if(!result.verified){
+        //  return res.status(401).json({ message: "User not verified. Check email" });
+        //}
+
+        else{
+          console.log("Login successful");
           const token = jwt.sign(
             {
-              email: user[0].email,
-              userId: user[0]._id
+              email: req.body.email,
+              userId: result.ID
             },
             process.env.JWT_KEY,
             { expiresIn: "1h" }
           );
+
           res.cookie('Cookie', token, { maxAge: 3600000, httpOnly: true });
           return res.redirect("../posts");
-            // .json({ message: "Authorisation successfull", token: token });
         }
+
         return res.status(401).json({ message: "Authorisation failed" });
-      });
-    })
-    .catch(err => {
+
+      })
       console.log(err);
-      res.status(500).json({});
-    });
+        res.status(500).json({});
+      });
+
   }
 
 

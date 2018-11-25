@@ -1,11 +1,13 @@
 const mongoose = require("mongoose");
-const Post = require("../models/post");
+const PostModel = require("../models/post");
 var htmlencode = require("htmlencode");
 var sanitize = require("sanitize-html");
 
 exports.getPosts = (req, res, next) => {
-  Post.find()
-    .exec()
+
+  var post = new PostModel();
+
+  post.feed()
     .then(docs => {
       // res.status(200).json(docs);
 
