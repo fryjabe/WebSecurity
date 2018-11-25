@@ -1,10 +1,12 @@
 var express = require("express");
 var path = require("path");
 var favicon = require("serve-favicon");
-var logger = require("morgan");
+var morgan = require("morgan");
 var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
 const helmet = require('helmet')
+var winston = require('./config/winston');
+
 
 // var csrf = require('csurf')
 // var csrfProtection = csrf({ cookie: true })
@@ -52,7 +54,7 @@ app.disable('x-powered-by')
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger("dev"));
+app.use(morgan('combined'));//, { stream: winston.stream }
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
