@@ -1,0 +1,20 @@
+<%- include('../partials/head.ejs') %>
+
+<%- include('../partials/header.ejs') %>
+
+
+<main>
+    <div class="jumbotron">
+       <form method="post" >
+           <h1>Welcome to SocialPenguin</h1>
+           <input type="text" name="email" placeholder="Enter Username" class="UN"><br>
+           <input type="password" name="password" placeholder="Enter Password" class="PP"><br>
+           <button type="submit" class="B1" name="Button1">Login</button>
+            <input type="hidden" name="_csrf" value="<%- csrfToken %>">
+
+       </form>
+       Don't have an account?<a class="btn" href="/users/signup">Register</a>
+    </div>
+</main>
+
+<%- include('../partials/end.ejs') %>
