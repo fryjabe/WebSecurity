@@ -1,17 +1,19 @@
 <%- include('../partials/head.ejs') %>
+
 <%- include('../partials/header.ejs') %>
 
 <main>
     <div class="jumbotron">
-       <form method="post" name="Signup">
+       <form method="post" name="Signup" onsubmit="return preventDefault()">
            <h1>Join SocialPenguin Today</h1>
-           Email: <input type="email" name="email"><br>
-           Password: <input type="password" name="password"><br>
+           Username: <input type="text" name="name" id="name" oninput="checkError(this, 'text')"><br>
+           Email: <input type="email" name="email" id="email" oninput="checkError(this, 'mail')"><br>
+           Password: <input type="password" name="password" id="password" oninput="checkError(this, 'pass')"><br>
            <button type="submit" class="B1" name="Button1">Signup</button><br>
            <a href="/users/login" name="HaveaccountButton">Already have an account?</a>
            <input type="hidden" name="_csrf" value="<%- csrfToken %>">
-           
-           
+
+
        </form>
     </div>
 </main>
