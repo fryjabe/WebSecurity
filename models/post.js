@@ -26,7 +26,7 @@ module.exports = class PostModel{
   }
 
   static createPost(post){
-    db.execute(`CALL securityDB.createUser(?,?,?,?)`,
+    db.execute(`CALL securityDB.createPost(?,?,?,?)`,
                 [post.userID, post.caption, post.link, post.postType])
                 .then(result =>{
                   console.log("New post created be user with ID " + post.userID);
