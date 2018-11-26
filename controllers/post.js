@@ -1,7 +1,7 @@
 
 const PostModel = require("../models/post");
-var htmlencode = require("htmlencode");
-var sanitize = require("sanitize-html");
+const htmlencode = require("htmlencode");
+const sanitize = require("sanitize-html");
 
 exports.getPosts = (req, res, next) => {
 
@@ -30,8 +30,7 @@ exports.writePost = (req, res, next) => {
   var postModel = new PostModel();
 
   var content = sanitize(req.body.caption);
-  console.log(content);
-  console.log("TONATONTA");
+  
 
   //TODO: Check more stuff
   if (content !== "") {
