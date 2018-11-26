@@ -7,9 +7,11 @@ const jwt = require("jsonwebtoken");
 var csrf = require('csurf');
 const RateLimit = require('express-rate-limit');
 
+//const { check } = require('express-validator/check');
+
 const limiter = new RateLimit({
     windowMs: 15 * 60 * 1000, // block access 15min
-    max: 3, // limit each IP to 50 requests
+    max: 5, // limit each IP to 50 requests
     delayMs: 0, // disable delaying - full speed until the max limit is reached
     message: "Too many request! Access blocked for 15 minutes"
   });
@@ -23,7 +25,8 @@ const usersController = require("../controllers/users");
 
 router.get("/signup", usersController.getSignup);
 
-router.post("/signup", usersController.signup); // no brackets ?
+//router.post("/signup", check('email').isEmail() ,usersController.signup); // no brackets ?
+router.post("/signup", usersController.signup);
 
 router.get("/login", usersController.getLogin);
 
