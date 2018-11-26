@@ -3,8 +3,11 @@
 CREATE DATABASE IF NOT EXISTS securityDB DEFAULT CHARACTER SET utf8mb4 ;
 USE `securityDB`;
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> origin/mergingSql
 DROP TABLE IF EXISTS `securityDB`.`like`;
 DROP TABLE IF EXISTS `securityDB`.`post`;
 DROP TABLE IF EXISTS `securityDB`.`user`;

@@ -9,7 +9,11 @@
   "database": "securityDB",
   "dbHost": "localhost",
   "dbUser": "root",
+<<<<<<< HEAD
   "dbPassword": "root",
+=======
+  "dbPassword": "7#hypnsY",
+>>>>>>> origin/mergingSql
   "recaptchaSiteKey": "6Lf0-FUUAAAAAOqoftMJbwmeeD-kZWr3o4MCbd78",
   "recaptchaSecretKey": "6Lf0-FUUAAAAAPW4ROtJ3tqcHDznfmIqMN2TGKyG",
   "sslPass": "websec",

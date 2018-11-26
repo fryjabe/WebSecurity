@@ -1,7 +1,12 @@
 const PostModel = require("../models/post");
+<<<<<<< HEAD
 var htmlencode = require("htmlencode");
 var sanitize = require("sanitize-html");
 const winston = require("../config/winston.js");
+=======
+const htmlencode = require("htmlencode");
+const sanitize = require("sanitize-html");
+>>>>>>> origin/mergingSql
 
 
 exports.getPosts = (req, res, next) => {
@@ -30,6 +35,10 @@ exports.writePost = (req, res, next) => {
   winston.info("POST request /posts");
   var postModel = new PostModel();
   var content = sanitize(req.body.caption);
+<<<<<<< HEAD
+=======
+  
+>>>>>>> origin/mergingSql
 
   //TODO: Check more stuff
   if (content !== "") {

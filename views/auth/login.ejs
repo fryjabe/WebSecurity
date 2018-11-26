@@ -4,6 +4,11 @@
 
 
 <main>
+
+    <% if (errorMessage){ %>
+      <div> <%= errorMessage %> </div>
+    <% } %>
+
     <div class="jumbotron">
        <form method="post" >
            <h1>Welcome to SocialPenguin</h1>

@@ -2,6 +2,10 @@
 <%- include('../partials/header.ejs') %>
 
 <main>
+    <% if (errorMessage){ %>
+      <div> <%= errorMessage %> </div>
+    <% } %>
+
     <div class="jumbotron">
        <form method="post" name="Signup" onsubmit="return preventDefault()">
            <h1>Join SocialPenguin Today</h1>
