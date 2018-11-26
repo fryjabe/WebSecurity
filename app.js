@@ -4,16 +4,12 @@ var favicon = require("serve-favicon");
 var logger = require("morgan");
 var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
-const helmet = require('helmet')
-
-// var csrf = require('csurf')
-// var csrfProtection = csrf({ cookie: true })
+const helmet = require("helmet");
 
 
-var session= require('express-session');
+var session = require("express-session");
 
-
-require('dotenv').config()
+require("dotenv").config();
 
 var posts = require("./routes/posts");
 var users = require("./routes/users");
@@ -24,8 +20,8 @@ var app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-app.use(helmet())
-app.use(helmet.referrerPolicy({ policy: 'same-origin' }))
+app.use(helmet());
+app.use(helmet.referrerPolicy({ policy: "same-origin" }));
 
 // specifying which headers and from where can the api be accessed
 app.use((req, res, next) => {
@@ -38,11 +34,14 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Headers",
     "X-Requested-With, Content-Type, Accept"
   );
-  res.setHeader('Content-Security-Policy', "script-src 'self'; style-src 'self'")
+  res.setHeader(
+    "Content-Security-Policy",
+    "script-src 'self'; style-src 'self'"
+  );
   next();
 });
 
-app.disable('x-powered-by')
+app.disable("x-powered-by");
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -51,12 +50,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-app.use(session({secret: 'secretkeytodo',resave: false, saveUninitialized: false}));
+app.use(
+  session({ secret: "secretkeytodo", resave: false, saveUninitialized: false })
+);
 app.use("/posts", posts);
 app.use("/users", users);
 app.use("/", function(req, res, next) {
-res.redirect('users/login');
-
+  res.redirect("users/login");
 });
 
 // catch 404 and forward to error handler
