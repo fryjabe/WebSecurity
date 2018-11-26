@@ -3,8 +3,6 @@
 CREATE DATABASE IF NOT EXISTS securityDB DEFAULT CHARACTER SET utf8mb4 ;
 USE `securityDB`;
 
-CREATE USER IF NOT EXISTS 'securityAdmin'@'localhost'  IDENTIFIED BY 'strongPassword';
-GRANT ALL PRIVILEGES ON `securityDB`.* TO 'securityAdmin'@'localhost';
 
 
 DROP TABLE IF EXISTS `securityDB`.`like`;
