@@ -15,16 +15,10 @@ var session= require('express-session');
 
 require('dotenv').config()
 
-
-var mongoose = require("mongoose");
 var posts = require("./routes/posts");
 var users = require("./routes/users");
 
 var app = express();
-
-mongoose.connect(
-  "mongodb+srv://fryjabe:kaszanka123@web-security-u3lnl.mongodb.net/test?retryWrites=true"
-);
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -37,7 +31,7 @@ app.use(helmet.referrerPolicy({ policy: 'same-origin' }))
 app.use((req, res, next) => {
   res.header(
     "Access-Control-Allow-Origin",
-    `http://localhost:3000` 
+    `http://localhost:3000`
     // we should not put * because it means that anybody can access the api
   );
   res.header(
@@ -84,4 +78,3 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
-

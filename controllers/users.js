@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken");
 //var csrf = require('csurf')
 //var csrfProtection = csrf({ cookie: true })
 
+const PASS_REG = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,12}$/;
+
 
 
 exports.getSignup= (req, res, next)=> {
@@ -20,8 +22,15 @@ exports.signup= (req, res, next) => {
     pass: req.body.password
   }
 
+  if(!PASS_REG.test(u.pass)){
+    console.log("The password must have 6-12 characters and must contain numbers and letters");
+  }
 
-  user.register(u)
+  else if(u.pass != req.body.repassword){
+    console.log("The password and the confirmation are different");
+  }
+
+  else user.register(u)
       .then(result => {
         res.status(201).redirect("/users/login");
       })

@@ -50,13 +50,6 @@ BEGIN
 END $$
 DELIMITER ;
 
--- Show friend's posts
-
--- Show comments on a friend post
-
--- Show conversation
-
--- Search person
 
 
 -- OTHER ----------

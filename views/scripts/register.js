@@ -84,5 +84,5 @@ function blockSubmit(){
 }
 
 function preventDefault(){
-    return name && password && repassword && birthday && email;
+    return username && password && repassword && email;
 }
