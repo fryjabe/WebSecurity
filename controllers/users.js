@@ -56,9 +56,9 @@ exports.login=  (req, res, next) => {
 
           return res.status(401).json({ message: "User or password incorrect" });
         }
-        //if(!result.verified){
-        //  return res.status(401).json({ message: "User not verified. Check email" });
-        //}
+        if(!result.verified){
+          return res.status(401).json({ message: "User not verified. Check email" });
+        }
 
         else{
           console.log("Login successful");
@@ -90,3 +90,19 @@ exports.login=  (req, res, next) => {
   exports.signout= (req, res,next) => {
     res.clearCookie("AUTH_TOKEN").redirect('/users/login');
   }
+
+  exports.activation=(req, res) => {
+    const activationCode = req.params.link;
+    const userModel = new UserModel();
+
+    userModel.activateAccount(activationCode)
+        .then((data) => {
+            res.redirect('/users/login')
+        })
+        .catch((err) => {
+            console.log("err2");
+
+            res.redirect('/users/login')
+
+        })
+}

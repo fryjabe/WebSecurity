@@ -13,8 +13,8 @@ const limiter = new RateLimit({
     delayMs: 0, // disable delaying - full speed until the max limit is reached
     message: "Too many request! Access blocked for 15 minutes"
   });
-  
-  
+
+
 var csrfProtection = csrf();
 router.use(csrfProtection);
 
@@ -30,5 +30,7 @@ router.get("/login", usersController.getLogin);
 router.post("/login",limiter, usersController.login); // no brackets ?
 
 router.get('/signout', usersController.signout);
+
+router.get('/activation/:link', usersController.activation);
 
 module.exports = router;
