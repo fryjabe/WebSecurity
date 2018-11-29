@@ -51,27 +51,28 @@ module.exports = class UserModel{
   }
 
 
-  async register(user){
+  async register(user) {
+    try {
+      const currentDate = new Date();
 
-    const currentDate = new Date();
+      user.verificationCode = md5(`${user.email}${currentDate}`);
+      user.pass = await this.hashPass(user.pass);
 
-    user.verificationCode = md5(`${user.email}${currentDate}`)
-    user.pass = await this.hashPass(user.pass)
+      db.execute(`CALL securityDB.createUser(?,?,?,?)`, [
+        user.name,
+        user.email,
+        user.pass,
+        user.verificationCode
+      ]);
 
-    db.execute(`CALL securityDB.createUser(?,?,?,?)`,
-                [user.name, user.email,
-                user.pass, user.verificationCode])
-      .then(result => {
-        console.log("New user created with email " + user.email);
-      })
-      .catch(err => {
-        console.log("User not created. Email already in use");
-      });
+      console.log("New user created with email " + user.email);
 
-
-    this.sendEmail(user.email, user.verificationCode)
-
+      this.sendEmail(user.email, user.verificationCode);
+      return { message: "account has been created", user: user.email };
+    } catch (err) {
+      console.log("User not created. Email already in use");
     }
+  }
 
     async activateAccount(accountString) {
 
