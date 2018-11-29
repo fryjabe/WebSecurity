@@ -1,6 +1,6 @@
 {
   "jwtSecretKey": "veryverysecret",
-  "ip": "139.59.129.139",
+  "ip": "138.68.90.120",
   "host": "localhost",
   "port": 3000,
   "sslPort": 9443,
@@ -9,10 +9,7 @@
   "database": "securityDB",
   "dbHost": "localhost",
   "dbUser": "root",
-  "dbPassword": "root",
-  "recaptchaSiteKey": "6Lf0-FUUAAAAAOqoftMJbwmeeD-kZWr3o4MCbd78",
-  "recaptchaSecretKey": "6Lf0-FUUAAAAAPW4ROtJ3tqcHDznfmIqMN2TGKyG",
-  "sslPass": "websec",
+  "dbPassword": "7#hypnsY",
   "mailUser": "keamailer@gmail.com",
   "mailPass": "Kea1111#",
   "sessionSecretKey": "absolutelysecuresessionkey"

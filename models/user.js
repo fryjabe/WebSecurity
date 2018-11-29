@@ -105,7 +105,7 @@ module.exports = class UserModel{
                 to: email,
                 subject: 'Account activation',
                 text: 'In order to activate your account you need to access the following link',
-                html: `<b>In order to activate your account you need to access the following link</b> <a href="http://${config.host}:${config.port}/users/activation/${activationString}">Activation link</a>`
+                html: `<b>In order to activate your account you need to access the following link</b> <a href="http://${config.ip}:${config.port}/users/activation/${activationString}">Activation link</a>`
             }
 
             transporter.sendMail(mailOptions, (error, info) => {
