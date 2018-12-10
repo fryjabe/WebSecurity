@@ -4,12 +4,12 @@
 
 
 
-        <form class="product-form" action="/posts" method="POST">
+        <form class="product-form" action="/posts" method="POST" enctype="multipart/form-data">
             <div class="form-control">
                 <label for="title">Type your message</label>
                 <input type="text" name="caption" id="caption">
+                <input type="file" name ="image" id="image">
                 <input type="hidden" name="_csrf" value="<%- csrfToken %>">
-
             </div>
 
             <button class="btn" type="submit">Add post</button>

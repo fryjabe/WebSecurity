@@ -8,9 +8,14 @@
                         <% for (let post of posts) { %>
                             <article class="card product-item">
                                 <header class="card__header">
+                                <% if (post.caption !== "") { %>
                                     <h1 class="product__title">
                                         <%= post.caption %>
                                     </h1>
+                                    <% } %>
+                                    <% if (post.link !== "") { %>
+                                    <img src="/<%= post.link%>">
+                                    <% } %>
                                 </header>
 
                             </article>

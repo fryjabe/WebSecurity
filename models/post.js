@@ -20,7 +20,7 @@ module.exports = class PostModel{
       console.log(err);
     });
 
-    //console.log(feed);
+    console.log(feed);
 
     return feed;
   }

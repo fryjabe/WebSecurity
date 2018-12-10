@@ -34,7 +34,9 @@ exports.writePost = (req, res, next) => {
   var postModel = new PostModel();
 
   var content = sanitize(req.body.caption);
-  
+  console.log("before image");
+  var image= req.file;
+  console.log(image.path);
 
   //TODO: Check more stuff
   if (content !== "") {
@@ -42,7 +44,7 @@ exports.writePost = (req, res, next) => {
     var post = {
       userID: 1, //TODO: Use current user in cookie
       caption: content,
-      link: "",
+      link: image.path,
       postType: 0
     }
 

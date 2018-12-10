@@ -2,7 +2,7 @@
   "jwtSecretKey": "veryverysecret",
   "ip": "138.68.90.120",
   "host": "localhost",
-  "port": 3000,
+  "port": 80,
   "sslPort": 9443,
   "wsPort": 5000,
   "wssPort": 5443,
