@@ -1,24 +1,39 @@
 <%- include('../partials/head.ejs') %>
-<%- include('../partials/header.ejs') %>
+<link rel="stylesheet" type="text/css" href="/stylesheets/login.css">
+<%- include('../partials/headclose.ejs') %>
 
 <main>
     <% if (errorMessage){ %>
       <div> <%= errorMessage %> </div>
     <% } %>
 
-    <div class="jumbotron">
-       <form method="post" name="Signup" onsubmit="return preventDefault()">
-           <h1>Join SocialPenguin Today</h1>
-           Username: <input type="text" name="name" id="name" onchange="checkError(this, 'text')"><br>
-           Email: <input type="email" name="email" id="email" oninput="checkError(this, 'mail')"><br>
-           Password: <input type="password" name="password" id="password" oninput="checkError(this, 'pass')"><br>
-           Repeat Password: <input type="password" name="repassword" id="repassword" oninput="checkError(this, 'pass')"><br>
-           <button type="submit" class="B1" name="Button1" id="submitbutton">Signup</button><br>
-           <a href="/users/login" name="HaveaccountButton">Already have an account?</a>
-           <input type="hidden" name="_csrf" value="<%- csrfToken %>">
+    <div class="radabox">
+        <div class="img-responsive headimage">
+            <img src="/assets/logo.png" alt="Logo">
+        </div>
 
-       </form>
+        <h1>Join SP Today!</h1>
+
+        <form class="box" name="Signup" method="post">
+
+            <input  id='name' type="text" placeholder="Username" name="name" autofocus>
+            <input  id='email' type="email" placeholder="Email" name="email">
+            <input  id="password" type="password" placeholder="Password" name="password">
+            <input  id="repassword" type="password" placeholder="Repeat password" name="repassword">
+
+            <input type="hidden" name="_csrf" value="<%- csrfToken %>">
+
+            <button  type="submit" name="Button1" id="submitbutton" class="btn btn-primary full-width loginbtn" >
+                Sign me in!
+            </button>
+
+            <a  href="/users/login" name="HaveaccountButton">
+                Login instead
+            </a>
+        </form>
+
     </div>
+
 </main>
 
 <%- include('../partials/end.ejs') %>
