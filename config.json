@@ -1,6 +1,7 @@
 {
   "jwtSecretKey": "veryverysecret",
   "ip": "138.68.90.120",
+  "link": "www.socialpenguin.club",
   "host": "localhost",
   "port": 80,
   "sslPort": 9443,
