@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const helmet = require("helmet");
 const multer = require("multer");
 const flash = require("connect-flash");
+const config = require("./config.json");
 
 // var csrf = require('csurf')
 // var csrfProtection = csrf({ cookie: true })
@@ -40,7 +41,7 @@ app.use((req, res, next) => {
   );
   res.setHeader(
     "Content-Security-Policy",
-    "script-src 'self'; style-src 'self'"
+    "script-src maxcdn.bootstrapcdn.com 'self'; style-src maxcdn.bootstrapcdn.com 'self'"
   );
   next();
 });

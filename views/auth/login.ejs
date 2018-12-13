@@ -1,7 +1,9 @@
 <%- include('../partials/head.ejs') %>
 
-<%- include('../partials/header.ejs') %>
+<link rel="stylesheet" type="text/css" href="/stylesheets/login.css">
+<script src="/scripts/login.js"></script>
 
+<%- include('../partials/headclose.ejs') %>
 
 <main>
 
@@ -9,17 +11,31 @@
       <div> <%= errorMessage %> </div>
     <% } %>
 
-    <div class="jumbotron">
-       <form method="post" >
-           <h1>Welcome to SocialPenguin</h1>
-           <input type="text" name="email" placeholder="Enter Email" class="UN"><br>
-           <input type="password" name="password" placeholder="Enter Password" class="PP"><br>
-           <button type="submit" class="B1" name="Button1">Login</button>
+    <div class="radabox">
+        <br>
+        <div class="img-responsive headimage">
+            <img src="/assets/logo.png" alt="Logo">
+        </div>
+
+        <h2>Login</h2>
+
+        <form class="box" method="post" onsubmit="return preventDefault()">
+            <input  id='user' type="text" placeholder="Email" name="email" class="UN" onchange="checkError(this, 'text')" autofocus>
+            <input  id='pass' type="password" placeholder="Password" name="password" class="PP">
+
             <input type="hidden" name="_csrf" value="<%- csrfToken %>">
 
-       </form>
-       Don't have an account?<a class="btn" href="/users/signup">Register</a>
+            <button  id="submitbutton" class="btn btn-primary full-width loginbtn" type="submit">
+                Get me in!
+            </button>
+
+            <a  class="btn btn-warning full-width signinbtn" href="/users/signup">
+                Create account
+            </a>
+        </form>
+
     </div>
+
 </main>
 
 <%- include('../partials/end.ejs') %>

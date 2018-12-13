@@ -1,0 +1,89 @@
+body {
+    background: url(../assets/back.jpg);
+}
+
+footer{
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	padding: 1rem;
+	text-align: center;
+}
+
+
+.radabox {
+	text-align: center;
+	width: 50rem;
+	border-radius: 0.5rem;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: 4rem auto;
+	background-color: #fff;
+	padding: 2rem;
+	padding-bottom: 10rem;
+}
+
+input {
+	width: 100%;
+	margin-bottom: 1.4rem;
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+	padding-left: 1rem;
+	background-color: #ecf2f4;
+	border-radius: 0.2rem;
+	border: none;
+}
+
+h2 {
+	margin-bottom: 3rem;
+	font-weight: bold;
+	font-family: sans-serif;
+
+}
+
+.btn{
+	border-radius: 0.2rem;
+}
+.loginbtn{
+	padding: 1rem;
+}
+.signinbtn{
+	padding: 0.5rem;
+}
+
+.full-width {
+	width: 95%;
+}
+
+
+.headimage {
+  max-width: 100%;
+  padding: 1em;
+	margin-top: 4rem;
+	margin-bottom: 6rem;
+}
+
+.headimage > img {
+  width: 30rem;
+}
+
+.glyphicon{
+	font-size: 4rem;
+	color: rgb(50,78,95);
+}
+
+.modaldiv{
+	position: fixed;
+	right: 5rem;
+	top: 4rem;
+	overflow: hidden;
+}
+
+.modalimag{
+	width: 40rem;
+	margin-left: 5vw;
+
+}
