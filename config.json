@@ -1,17 +1,13 @@
 {
-  "jwtSecretKey": "veryverysecret",
+  "jwtSecretKey": "Ysnpyhsecret",
   "ip": "138.68.90.120",
   "link": "www.socialpenguin.club",
   "host": "localhost",
   "port": 80,
-  "sslPort": 9443,
-  "wsPort": 5000,
-  "wssPort": 5443,
   "database": "securityDB",
   "dbHost": "localhost",
   "dbUser": "root",
   "dbPassword": "7#hypnsY",
   "mailUser": "keamailer@gmail.com",
-  "mailPass": "Kea1111#",
-  "sessionSecretKey": "absolutelysecuresessionkey"
+  "mailPass": "Kea1111#"
 }

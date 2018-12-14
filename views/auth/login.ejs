@@ -21,13 +21,13 @@
         <form class="box" method="post" onsubmit="return preventDefault()">
             <input  id='user' type="text" placeholder="Email" name="email" class="UN" onchange="checkError(this, 'text')" autofocus>
             <input  id='pass' type="password" placeholder="Password" name="password" class="PP">
-
+            <br><br>
             <input type="hidden" name="_csrf" value="<%- csrfToken %>">
 
             <button  id="submitbutton" class="btn btn-primary full-width loginbtn" type="submit">
                 Get me in!
             </button>
-
+            <br><br>
             <a  class="btn btn-warning full-width signinbtn" href="/users/signup">
                 Create account
             </a>
