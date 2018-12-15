@@ -9,6 +9,93 @@ var password;
 var repassword;
 var email;
 
+document.getElementById('name').addEventListener("input", function(){
+
+  var nameInput = document.getElementById('name');
+
+  if(nameInput.value == "" || nameInput.value == "undefined" || nameInput.value == null){
+      nameInput.style.setProperty('background-color', INCORRECT, 'important');
+      username = false;
+      blockSubmit();
+  }
+  else{
+      nameInput.style.setProperty('background-color', CORRECT, 'important');
+      username = true;
+      if(username && password && repassword && email ) allowSubmit();
+  }
+});
+
+document.getElementById('email').addEventListener("input", function(){
+
+  var emailInput = document.getElementById('email');
+
+  if(!MAIL_REG.test(emailInput.value)){
+      emailInput.style.setProperty('background-color', INCORRECT, 'important');
+      email = false;
+      blockSubmit();
+  }
+  else{
+      emailInput.style.setProperty('background-color', CORRECT, 'important');
+      email = true;
+      if(username && password && repassword && email) allowSubmit();
+  }
+});
+
+document.getElementById('password').addEventListener("input", function(){
+
+  var passInput = document.getElementById('password');
+
+  if(!PASS_REG.test(passInput.value)){
+    passInput.style.setProperty('background-color', INCORRECT, 'important');
+    password = false;
+    blockSubmit();
+
+
+  }
+  else{
+    passInput.style.setProperty('background-color', CORRECT, 'important');
+    password = true;
+    if(username && password && repassword && email) allowSubmit();
+    document.getElementById('passReq').style.setProperty('display', 'none', 'important')
+  }
+
+  if(password && passInput.value == document.getElementById("repassword").value){
+    document.getElementById("repassword").style.setProperty('background-color', CORRECT, 'important');
+    repassword = true;
+    if(username && password && repassword && email) allowSubmit();
+  }
+
+
+});
+
+document.getElementById('password').addEventListener("change", function(){
+
+  var passInput = document.getElementById('password');
+
+  if(!PASS_REG.test(passInput.value)){
+    document.getElementById('passReq').style.setProperty('display', 'block', 'important')
+  }
+
+});
+
+document.getElementById('repassword').addEventListener("input", function(){
+
+  var repassInput = document.getElementById('repassword');
+
+  if(repassInput.value != document.getElementById("password").value || !password){
+    repassInput.style.setProperty('background-color', INCORRECT, 'important');
+    repassword = false;
+    blockSubmit();
+  }
+  else{
+    repassInput.style.setProperty('background-color', CORRECT, 'important');
+    repassword = true;
+    if(username && password && repassword && email) allowSubmit();
+  }
+});
+
+
+
 window.onload = function(){
     document.getElementById('submitbutton').disabled=true;
 
@@ -18,62 +105,6 @@ window.onload = function(){
     email = false;
 }
 
-
-function checkError(e, t) {
-
-    switch (t){
-        case 'text':
-            if(e.value == "" || e.value == "undefined" || e.value == null){
-                e.style.setProperty('background-color', INCORRECT, 'important');
-                this[e.name] = false;
-                blockSubmit();
-            }
-            else{
-                e.style.setProperty('background-color', CORRECT, 'important');
-                this[e.name] = true;
-                if(username && name && password && repassword && birthday && email ) allowSubmit();
-            }
-            break;
-
-        case 'mail':
-
-            if(!MAIL_REG.test(e.value)){
-                e.style.setProperty('background-color', INCORRECT, 'important');
-                email = false;
-                blockSubmit();
-            }
-            else{
-                e.style.setProperty('background-color', CORRECT, 'important');
-                email = true;
-                if(username && name && password && repassword && birthday && email) allowSubmit();
-            }
-            break;
-
-
-        case 'pass':
-
-            if(!PASS_REG.test(e.value)){
-                e.style.setProperty('background-color', INCORRECT, 'important');
-                this[e.name] = false;
-                blockSubmit();
-            }
-            else{
-                if(e.name == "repassword" && e.value != document.getElementById("password").value){
-                    e.style.setProperty('background-color', INCORRECT, 'important');
-                    repassword = false;
-                    blockSubmit();
-                }
-                else{
-                    e.style.setProperty('background-color', CORRECT, 'important');
-                    this[e.name] = true;
-                    if(username && name && password && repassword && birthday && email) allowSubmit();
-                }
-
-            }
-            break;
-    }
-
-}
 
 function allowSubmit(){
     document.getElementById('submitbutton').disabled=false;

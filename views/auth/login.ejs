@@ -6,8 +6,8 @@
 
 <main>
 
-    <% if (errorMessage){ %>
-      <div> <%= errorMessage %> </div>
+    <% if (errorMessage != ""){ %>
+      <div class="alert alert-danger"> <%= errorMessage %> </div>
     <% } %>
 
     <div class="radabox">
@@ -18,8 +18,8 @@
 
         <h2>Login</h2>
 
-        <form class="box" method="post" onsubmit="return preventDefault()">
-            <input  id='user' type="text" placeholder="Email" name="email" class="UN" onchange="checkError(this, 'text')" autofocus>
+        <form class="box" method="post">
+            <input  id='user' type="text" placeholder="Email" name="email" class="UN" autofocus>
             <input  id='pass' type="password" placeholder="Password" name="password" class="PP">
             <br><br>
             <input type="hidden" name="_csrf" value="<%- csrfToken %>">
@@ -35,5 +35,7 @@
     </div>
 
 </main>
+
+<script src="/scripts/login.js"></script>
 
 <%- include('../partials/end.ejs') %>

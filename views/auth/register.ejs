@@ -3,8 +3,8 @@
 <%- include('../partials/headclose.ejs') %>
 
 <main>
-    <% if (errorMessage){ %>
-      <div> <%= errorMessage %> </div>
+    <% if (errorMessage != ""){ %>
+      <div class="alert alert-danger"> <%= errorMessage %> </div>
     <% } %>
 
     <div class="radabox">
@@ -19,6 +19,7 @@
             <input  id='name' type="text" placeholder="Username" name="name" autofocus>
             <input  id='email' type="email" placeholder="Email" name="email">
             <input  id="password" type="password" placeholder="Password" name="password">
+            <p class="text-danger hidden" id="passReq">Password must follow certain <abbr title="Between 6 and 12 characters with numbers and letters. One capital letter and one lowercase at least.">requirements</abbr></p>
             <input  id="repassword" type="password" placeholder="Repeat password" name="repassword">
 
             <input type="hidden" name="_csrf" value="<%- csrfToken %>">
@@ -34,5 +35,7 @@
     </div>
 
 </main>
+
+<script src="/scripts/register.js"></script>
 
 <%- include('../partials/end.ejs') %>

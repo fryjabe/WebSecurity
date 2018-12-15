@@ -109,9 +109,17 @@ module.exports = class UserModel{
             }
 
             transporter.sendMail(mailOptions, (error, info) => {
-                if (error) throw { activationSent: false }
+                if (error){
+                  console.log("Error sending verification email");
+                  throw { activationSent: false }
+                }
             })
+
+            console.log("Verification mail sent");
+
         })
+
+        
     }
 
   }
