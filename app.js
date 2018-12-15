@@ -41,7 +41,7 @@ app.use((req, res, next) => {
   );
   res.setHeader(
     "Content-Security-Policy",
-    "script-src maxcdn.bootstrapcdn.com 'self'; style-src maxcdn.bootstrapcdn.com 'self'"
+    "script-src maxcdn.bootstrapcdn.com code.jquery.com 'self'; style-src maxcdn.bootstrapcdn.com 'self'; object-src 'none'"
   );
   next();
 });
