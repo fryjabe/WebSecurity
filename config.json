@@ -4,6 +4,7 @@
   "link": "www.socialpenguin.club",
   "host": "localhost",
   "port": 80,
+  "sslPort":443,
   "database": "securityDB",
   "dbHost": "localhost",
   "dbUser": "root",

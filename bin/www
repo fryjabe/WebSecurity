@@ -5,8 +5,12 @@
  */
 
 var app = require('../app');
+var fs = require('fs');
 var debug = require('debug')('verysecureapp:server');
 var http = require('http');
+var https = require('https');
+
+var config = require('../config.json');
 
 /**
  * Get port from environment and store in Express.
@@ -15,11 +19,19 @@ var http = require('http');
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
+const sslOptions = {
+  key: fs.readFileSync('ssl/server.key'),
+  cert: fs.readFileSync('ssl/socialpenguin_club.chained.crt')
+}
+
+const sslPort = config.sslPort;
+
 /**
  * Create HTTP server.
  */
 
 var server = http.createServer(app);
+var sslServer = https.createServer(sslOptions, app);
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -28,6 +40,8 @@ var server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+
+sslServer.listen(sslPort);
 
 /**
  * Normalize a port into a number, string, or false.
